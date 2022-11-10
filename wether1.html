@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>날씨</title>
+    <!-- jquery CDN 불러오기 -->
+    <script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>    
+</head>
+<script>
+    //ajax로 api통신하기 서울 lat=37.5666791 lon=126.9782914
+    // 키 = 5b564245bfc71db473fd8f9dbc250539
+    $.ajax({
+        method: "GET",
+        url: "https://api.openweathermap.org/data/2.5/weather?lat=37.5666791&lon=126.9782914&appid=5b564245bfc71db473fd8f9dbc250539",
+        data: {}
+    })
+    //통신 성공 했을 때
+    .done(function(data) {
+        console.log(data);
+    });
+</script>
+<body>
+    
+</body>
+</html>
