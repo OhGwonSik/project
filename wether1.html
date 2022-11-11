@@ -13,15 +13,58 @@
     // 키 = 5b564245bfc71db473fd8f9dbc250539
     $.ajax({
         method: "GET",
-        url: "https://api.openweathermap.org/data/2.5/weather?lat=37.5666791&lon=126.9782914&appid=5b564245bfc71db473fd8f9dbc250539",
+        url: "https://api.openweathermap.org/data/2.5/weather?q=Yangju&units=metric&lang=kr&appid=5b564245bfc71db473fd8f9dbc250539",
         data: {}
     })
     //통신 성공 했을 때
     .done(function(data) {
         console.log(data);
+        // console.log(data.name); 도시 이름
+        // console.log(data.main.temp-273.15+"°C"); 현재 기온
+        // console.log(data.main.temp_max-273.15+"°C"); 최고 기온
+        // console.log(data.main.temp_min-273.15+"°C"); 최저 기온(값을 이상하게 받아온다.)
+        // console.log(data.main.humidity+"%"); 현재 습도
+        // console.log(data.clouds.all+"%"); 구름 양
+        // console.log(data.wind.speed+"m/s"); 풍속
+        var name = data.name;
+        var tmpe = data.main.temp;
+        var cloud = data.clouds.all;
+        var humidity = data.main.humidity;
+        var windSpeed = data.wind.speed;
+        var tmpMax = data.main.temp_max;
+        // var tmpMin = data.main.temp_min; 값을 이상하게 받아와서 보류
+        $(".tmp").append(Math.floor(tmpe)+"°C");
+        $(".max").append(Math.floor(tmpMax)+"°C");
+        // $(".min").append(Math.floor(tmpMin)+"°C"); 값을 이상하게 받아와서 보류
+        $(".nation").append(name);
+        $(".clo").append(cloud+"%");
+        $(".dity").append(humidity+"%");
+        $(".wind").append(windSpeed+"m/s");
+        
     });
 </script>
 <body>
-    
+    <dir>
+        <p class ="nation"></p>
+    </dir>
+    <dir>
+        <p class="tmp"></p>
+    </dir>
+    <dir>
+        <p class ="clo"></p>
+    </dir>
+    <dir>
+        <p class="dity"></p>
+    </dir>
+    <dir>
+        <p class="wind"></p>
+    </dir>
+    <dir>
+        <p class="max"></p>
+    </dir>
+    <dir>
+        <p class="min"></p>
+    </dir>
+
 </body>
 </html>
