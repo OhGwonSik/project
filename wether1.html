@@ -26,6 +26,7 @@
         // console.log(data.main.humidity+"%"); 현재 습도
         // console.log(data.clouds.all+"%"); 구름 양
         // console.log(data.wind.speed+"m/s"); 풍속
+        // console.log(Math.floor(data.main.feels_like)+ "°C"); 현재 체감온도
         var name = data.name;
         var tmpe = data.main.temp;
         var cloud = data.clouds.all;
@@ -33,6 +34,7 @@
         var windSpeed = data.wind.speed;
         var tmpMax = data.main.temp_max;
         var weather = data.weather[0].description;
+        var feel = data.main.feels_like;
         // var tmpMin = data.main.temp_min; 값을 이상하게 받아와서 보류
         $(".tmp").append(Math.floor(tmpe)+"°C");
         $(".max").append(Math.floor(tmpMax)+"°C");
@@ -42,7 +44,7 @@
         $(".dity").append(humidity+"%");
         $(".wind").append(windSpeed+"m/s");
         $(".des").append(weather);
-        
+        $(".feels").append(Math.floor(feel)+"°C");
     });
 </script>
 <body>
@@ -66,6 +68,9 @@
     </dir>
     <dir>
         <p class="des"></p>
+    </dir>
+    <dir>
+        <p class="feels"></p>
     </dir>
 
 </body>
