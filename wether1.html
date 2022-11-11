@@ -32,6 +32,7 @@
         var humidity = data.main.humidity;
         var windSpeed = data.wind.speed;
         var tmpMax = data.main.temp_max;
+        var weather = data.weather[0].description;
         // var tmpMin = data.main.temp_min; 값을 이상하게 받아와서 보류
         $(".tmp").append(Math.floor(tmpe)+"°C");
         $(".max").append(Math.floor(tmpMax)+"°C");
@@ -40,6 +41,7 @@
         $(".clo").append(cloud+"%");
         $(".dity").append(humidity+"%");
         $(".wind").append(windSpeed+"m/s");
+        $(".des").append(weather);
         
     });
 </script>
@@ -63,7 +65,7 @@
         <p class="max"></p>
     </dir>
     <dir>
-        <p class="min"></p>
+        <p class="des"></p>
     </dir>
 
 </body>
