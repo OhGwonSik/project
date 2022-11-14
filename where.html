@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>    
+</head>
+<script>
+
+$(function(){
+    var lat = 0;
+    var lon = 0;
+    function getLocation() {
+    if (navigator.geolocation) { // GPS를 지원하면
+        navigator.geolocation.getCurrentPosition(function(position) { //GPS 위치 잡았을 때
+            console.log(position.coords.latitude + ":" + position.coords.longitude)
+            lat = position.coords.latitude;
+            lon = position.coords.longitude;
+            // alert(position.coords.latitude + ' ' + position.coords.longitude);
+            $.ajax({
+	            url : 'https://dapi.kakao.com/v2/local/geo/coord2address.json?x=' + lon +'&y=' + lat,
+                type : 'GET',
+                headers : {
+                    'Authorization' : 'KakaoAK e36441768802efdba409d59963bce981'
+                },
+                success : function(data) {
+                    console.log(data);
+                    console.log(data.documents[0].address.region_3depth_name); //ex 상계동
+                    $(".a").append(data.documents[0].address.region_3depth_name+"의 현재 날씨");
+                },
+                error : function(e) {
+                    console.log(e);
+                }
+            });
+            }, function(error) {
+                 console.error(error);
+            }, {
+        enableHighAccuracy: false,
+        maximumAge: 0,
+        timeout: Infinity
+        });
+     } else {
+         alert('GPS를 지원하지 않습니다');
+        }
+}
+getLocation();
+});
+</script>
+<body>
+    <p class="a"></p>
+</body>
+</html>

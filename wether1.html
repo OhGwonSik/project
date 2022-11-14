@@ -7,8 +7,23 @@
     <title>날씨</title>
     <!-- jquery CDN 불러오기 -->
     <script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>    
+    <script src="https://kit.fontawesome.com/82511618be.js" crossorigin="anonymous"></script>
+
 </head>
 <script>
+    //fontawesome 아이콘
+    var weatherIcon = {
+    '01' : 'fas fa-sun',
+    '02' : 'fas fa-cloud-sun',
+    '03' : 'fas fa-cloud',
+    '04' : 'fas fa-cloud-meatball',
+    '09' : 'fas fa-cloud-sun-rain',
+    '10' : 'fas fa-cloud-showers-heavy',
+    '11' : 'fas fa-poo-storm',
+    '13' : 'far fa-snowflake',
+    '50' : 'fas fa-smog'
+};
+
     //ajax로 api통신하기 서울 lat=37.5666791 lon=126.9782914
     // 키 = 5b564245bfc71db473fd8f9dbc250539
     $.ajax({
