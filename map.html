@@ -1,26 +1,267 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+	<meta charset="utf-8"/>
+	<title>날씨</title>
+	<script src="https://kit.fontawesome.com/82511618be.js" crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>    
+	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=eb809769b98e742550a94030e89ea763"></script>
+	<style>
+	.wrap{
+		position : absolute;
+        border : 4px solid #000000;
+		margin-top : 10px;
+        /* padding : 40px; */
+		left : 550px;
+		top: 70px;
+        color : rgb(0, 0, 0);
+        height : 400px;
+        width : 600px;
+    }
+	/* 아이콘을 더 키워야함 */
+	.icon_wrap{
+		position: absolute;
+		top:30%;
+		left: 20%;
+	}
+	.menu{
+		position: absolute;
+		left: 60%;
+		font-size: 30px;
+		margin-top: 50px;
+	}
+	.tempzone{
+		position: absolute;
+		left: 20%;
+		top:70%;
+		font-size: 30px;
+	}
+	.list{
+		list-style:none;
+		padding-left: 0px;
+	}
+	a{
+		text-decoration-line: none;
+	}
+	</style>
 </head>
 <body>
-<!-- 지도를 표시할 div 입니다
-//	eb809769b98e742550a94030e89ea763 -->
-<div id="map" style="width:100%;height:350px;"></div>
+	<ul class = "list">
+		<li><a href="#">메뉴1</a></li>
+		<li><a href="#">메뉴2</a></li>
+		<li><a href="#">메뉴3</a></li>
+	</ul>
+	<p style="margin-top:-12px"></p>
+	<div id="map" style="width:500px;height:400px;"></div>
+	<div class = "wrap">
+		<p class="point" style="position: absolute"></p>
+        <div class = "icon_wrap">
+            <div class="weather_icon"></div>
+		</div><br>
+		<div class = "menu">
+                <div class="temp_min"></div>
+                <div class="temp_max"></div>
+                <div class="feel"></div>
+                <div class="humidity"></div>
+                <div class="wind"></div>
+                <div class="cloud"></div>
+        </div>
+		<div class ="tempzone">
+            <div class="current_temp"></div>
+            <div class="weather_description"></div>
+        </div>
 
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=eb809769b98e742550a94030e89ea763"></script>
+	</div>
+
+	
 <script>
-var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
-    mapOption = { 
-        center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
-        level: 3 // 지도의 확대 레벨
-    };
+	//날씨 description 한글화
+	var weatherDescKo = [
+	{ 201: '가벼운 비를 동반한 천둥구름' },
+	{ 200: '비를 동반한 천둥구름' },
+	{ 202: '폭우를 동반한 천둥구름' },
+	{ 210: '약한 천둥구름' },
+	{ 211: '천둥구름' },
+	{ 212: '강한 천둥구름' },
+	{ 221: '불규칙적 천둥구름' },
+	{ 230: '약한 연무를 동반한 천둥구름' },
+	{ 231: '연무를 동반한 천둥구름' },
+	{ 232: '강한 안개비를 동반한 천둥구름' },
+	{ 300: '가벼운 안개비' },
+	{ 301: '안개비' },
+	{ 302: '강한 안개비' },
+	{ 310: '가벼운 적은비' },
+	{ 311: '적은비' },
+	{ 312: '강한 적은비' },
+	{ 313: '소나기와 안개비' },
+	{ 314: '강한 소나기와 안개비' },
+	{ 321: '소나기' },
+	{ 500: '악한 비' },
+	{ 501: '중간 비' },
+	{ 502: '강한 비' },
+	{ 503: '매우 강한 비' },
+	{ 504: '극심한 비' },
+	{ 511: '우박' },
+	{ 520: '약한 소나기 비' },
+	{ 521: '소나기 비' },
+	{ 522: '강한 소나기 비' },
+	{ 531: '불규칙적 소나기 비' },
+	{ 600: '가벼운 눈' },
+	{ 601: '눈' },
+	{ 602: '강한 눈' },
+	{ 611: '진눈깨비' },
+	{ 612: '소나기 진눈깨비' },
+	{ 615: '약한 비와 눈' },
+	{ 616: '비와 눈' },
+	{ 620: '약한 소나기 눈' },
+	{ 621: '소나기 눈' },
+	{ 622: '강한 소나기 눈' },
+	{ 701: '박무' },
+	{ 711: '연기' },
+	{ 721: '연무' },
+	{ 731: '모래 먼지' },
+	{ 741: '안개' },
+	{ 751: '모래' },
+	{ 761: '먼지' },
+	{ 762: '화산재' },
+	{ 771: '돌풍' },
+	{ 781: '토네이도' },
+	{ 800: '구름 한 점 없는 맑은 하늘' },
+	{ 801: '약간의 구름이 낀 하늘' },
+	{ 802: '드문드문 구름이 낀 하늘' },
+	{ 803: '구름이 거의 없는 하늘' },
+	{ 804: '구름으로 뒤덮인 흐린 하늘' },
+	{ 900: '토네이도' },
+	{ 901: '태풍' },
+	{ 902: '허리케인' },
+	{ 903: '한랭' },
+	{ 904: '고온' },
+	{ 905: '바람부는' },
+	{ 906: '우박' },
+	{ 951: '바람이 거의 없는' },
+	{ 952: '약한 바람' },
+	{ 953: '부드러운 바람' },
+	{ 954: '중간 세기 바람' },
+	{ 955: '신선한 바람' },
+	{ 956: '센 바람' },
+	{ 957: '돌풍에 가까운 센 바람' },
+	{ 958: '돌풍' },
+	{ 959: '심각한 돌풍' },
+	{ 960: '폭풍' },
+	{ 961: '강한 폭풍' },
+	{ 962: '허리케인' },
+	]
+    //fontawesome 아이콘
+    var weatherIcon = {
+    '01' : 'fas fa-sun',
+    '02' : 'fas fa-cloud-sun',
+    '03' : 'fas fa-cloud',
+    '04' : 'fas fa-cloud-meatball',
+    '09' : 'fas fa-cloud-sun-rain',
+    '10' : 'fas fa-cloud-showers-heavy',
+    '11' : 'fas fa-poo-storm',
+    '13' : 'far fa-snowflake',
+    '50' : 'fas fa-smog'
+	};
+	//지도 옵션
+	var container = document.getElementById('map');
+	var options = {
+		center: new kakao.maps.LatLng(33.450701, 126.570667),
+		level: 3
+	};
 
-// 지도를 표시할 div와  지도 옵션으로  지도를 생성합니다
-var map = new kakao.maps.Map(mapContainer, mapOption); 
+	var map = new kakao.maps.Map(container, options); //지도 생성
+
+	if (navigator.geolocation) {
+    
+    // GeoLocation을 이용해서 접속 위치를 얻어옵니다
+    navigator.geolocation.getCurrentPosition(function(position) {
+        
+        var lat = position.coords.latitude, // 위도
+            lon = position.coords.longitude; // 경도
+        
+        var locPosition = new kakao.maps.LatLng(lat, lon); // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
+        
+        // 마커 표시합니다
+    displayMarker(locPosition);
+	//ajax 통신을 하여 좌표값을 주소로 바꿔준다.
+	$.ajax({
+	        url : 'https://dapi.kakao.com/v2/local/geo/coord2address.json?x=' + lon +'&y=' + lat,
+            type : 'GET',
+            headers : {
+                'Authorization' : 'KakaoAK e36441768802efdba409d59963bce981'
+            },
+            success : function(data) {
+                console.log(data);
+                console.log(data.documents[0].address.region_3depth_name); //ex 상계동
+                $(".point").append("현재 " + data.documents[0].address.region_3depth_name+"의 날씨");
+            },
+            error : function(e) {
+                console.log(e);
+            }
+    });
+	//ajax통신을 이용한 날씨 정보 가져오기
+	$.ajax({
+        method: "GET",
+        url: "https://api.openweathermap.org/data/2.5/weather?q=Yangju&units=metric&appid=5b564245bfc71db473fd8f9dbc250539",
+        data: {}
+    })
+    //통신 성공 했을 때
+    .done(function(data) {
+        console.log(data);
+        var $Icon = (data.weather[0].icon).substr(0,2);
+        var $weather_description = data.weather[0].id;
+        var $Temp = '현재 온도&nbsp;&nbsp;&nbsp;&nbsp;'+Math.floor(data.main.temp) + 'º';
+        var $humidity = '습도&nbsp;&nbsp;&nbsp;&nbsp;' + data.main.humidity + ' %';
+        var $wind = '바람&nbsp;&nbsp;&nbsp;&nbsp;' + data.wind.speed + ' m/s';
+        var $city = data.name;
+        var $cloud = '구름&nbsp;&nbsp;&nbsp;&nbsp;' + data.clouds.all +"%";
+        // var $temp_min = '최저 온도&nbsp;&nbsp;&nbsp;&nbsp;' + Math.floor(tmpMin) + 'º';
+        var $temp_max = '최고 온도&nbsp;&nbsp;&nbsp;&nbsp;' + Math.floor(data.main.temp_max) + 'º';
+        var $feel = '체감 온도&nbsp;&nbsp;&nbsp;&nbsp;' + Math.floor(data.main.feels_like) + 'º';
+
+        $('.weather_icon').append('<i class="' + weatherIcon[$Icon] +' fa-5x" style="height : 150px; width : 150px;"></i>');
+        // $('.weather_description').prepend($weather_description);
+        $('.current_temp').prepend($Temp);
+        $('.humidity').prepend($humidity);
+        $('.wind').prepend($wind);
+        $('.city').append($city);
+        $('.cloud').append($cloud);
+        // $('.temp_min').append($temp_min);
+        $('.temp_max').append($temp_max);         
+        $('.feel').append($feel);
+        //weatherDescKo의 키 비교 후 값을 가져오는 알고리즘
+        for(var i=0;i<$weather_description;i++){
+            if($weather_description==Object.keys(weatherDescKo[i])){
+            $('.weather_description').prepend(weatherDescKo[i][$weather_description]);
+        }else{
+            console.log("false")
+        }
+        }   
+    });
+            
+});
+    
+} else { // HTML5의 GeoLocation을 사용할 수 없을때 마커 표시 위치 내용을 설정합니다
+    
+    var locPosition = new kakao.maps.LatLng(33.450701, 126.570667),    
+        message = 'geolocation을 사용할수 없어요..'
+        
+    displayMarker(locPosition);
+}
+
+// 지도에 마커 표시하는 함수입니다
+function displayMarker(locPosition) {
+
+    // 마커를 생성합니다
+    var marker = new kakao.maps.Marker({  
+        map: map, 
+        position: locPosition
+    }); 
+    
+    // 지도 중심좌표를 접속위치로 변경합니다
+    map.setCenter(locPosition);      
+}    
 </script>
 </body>
 </html>

@@ -17,7 +17,7 @@
         background-color : rgb(101, 178, 255);
         padding : 40px;
         color : #fff;
-        height : 150px;
+        height : 200px;
         width : 500px;
     }
     .icon_wrap{
@@ -30,7 +30,7 @@
     }
     .tempzone{
         float : left;
-        margin-top : -30px
+        margin-top : -50px
     }
     .current_temp{
         font-size : 50pt
@@ -120,7 +120,7 @@ var weatherDescKo = [
   { 960: '폭풍' },
   { 961: '강한 폭풍' },
   { 962: '허리케인' },
-]
+];
     //fontawesome 아이콘
     var weatherIcon = {
     '01' : 'fas fa-sun',
@@ -133,7 +133,8 @@ var weatherDescKo = [
     '13' : 'far fa-snowflake',
     '50' : 'fas fa-smog'
 };
-
+    //서울
+    // https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API key}
     //ajax로 api통신하기 서울 lat=37.5666791 lon=126.9782914 &lang=kr
     // 키 = 5b564245bfc71db473fd8f9dbc250539
     $.ajax({
@@ -174,8 +175,7 @@ var weatherDescKo = [
         }
         }   
     });
-    //서울
-    
+
     
 </script>
 <body>
