@@ -3,6 +3,7 @@
 <head>
 	<meta charset="utf-8"/>
 	<title>날씨</title>
+	<!-- 폰트 입력이 안된다... -->
 	<script src="https://kit.fontawesome.com/82511618be.js" crossorigin="anonymous"></script>
 	<script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>    
 	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=eb809769b98e742550a94030e89ea763"></script>
@@ -11,18 +12,17 @@
 		position : absolute;
         border : 4px solid #000000;
 		margin-top : 10px;
-        /* padding : 40px; */
 		left : 550px;
 		top: 70px;
         color : rgb(0, 0, 0);
         height : 400px;
         width : 600px;
     }
-	/* 아이콘을 더 키워야함 */
 	.icon_wrap{
 		position: absolute;
 		top:30%;
 		left: 20%;
+		font-size: 20px;
 	}
 	.menu{
 		position: absolute;
@@ -42,6 +42,11 @@
 	}
 	a{
 		text-decoration-line: none;
+	}
+	.point{
+		margin: 0px;
+		font-size: 30px;
+		border : 2px solid #000000;
 	}
 	</style>
 </head>
@@ -179,10 +184,9 @@
         
         var lat = position.coords.latitude, // 위도
             lon = position.coords.longitude; // 경도
-        
         var locPosition = new kakao.maps.LatLng(lat, lon); // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
         
-        // 마커 표시합니다
+    // 마커 표시합니다
     displayMarker(locPosition);
 	//ajax 통신을 하여 좌표값을 주소로 바꿔준다.
 	$.ajax({
@@ -191,24 +195,22 @@
             headers : {
                 'Authorization' : 'KakaoAK e36441768802efdba409d59963bce981'
             },
-            success : function(data) {
-                console.log(data);
-                console.log(data.documents[0].address.region_3depth_name); //ex 상계동
+            success : function(data) { //통신 성공 하였을 때
                 $(".point").append("현재 " + data.documents[0].address.region_3depth_name+"의 날씨");
             },
-            error : function(e) {
+            error : function(e) { //통신 실패 하였을 때
                 console.log(e);
             }
     });
 	//ajax통신을 이용한 날씨 정보 가져오기
 	$.ajax({
         method: "GET",
-        url: "https://api.openweathermap.org/data/2.5/weather?q=Yangju&units=metric&appid=5b564245bfc71db473fd8f9dbc250539",
+		url: "https://api.openweathermap.org/data/2.5/weather?lat=" +lat + "&lon=" + lon + "&units=metric&lang=kr&appid=5b564245bfc71db473fd8f9dbc250539",
         data: {}
     })
     //통신 성공 했을 때
     .done(function(data) {
-        console.log(data);
+
         var $Icon = (data.weather[0].icon).substr(0,2);
         var $weather_description = data.weather[0].id;
         var $Temp = '현재 온도&nbsp;&nbsp;&nbsp;&nbsp;'+Math.floor(data.main.temp) + 'º';
