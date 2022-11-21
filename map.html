@@ -48,6 +48,9 @@
 		font-size: 30px;
 		border : 2px solid #000000;
 	}
+	li{
+		display: inline-block;
+	}
 	</style>
 </head>
 <body>
@@ -57,7 +60,7 @@
 		<li><a href="#">메뉴3</a></li>
 	</ul>
 	<p style="margin-top:-12px"></p>
-	<div id="map" style="width:500px;height:400px;"></div>
+	<div id="map" style="width:500px;height:400px;top:40px"></div>
 	<div class = "wrap">
 		<p class="point" style="position: absolute"></p>
         <div class = "icon_wrap">
@@ -185,7 +188,8 @@
         var lat = position.coords.latitude, // 위도
             lon = position.coords.longitude; // 경도
         var locPosition = new kakao.maps.LatLng(lat, lon); // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
-        
+        console.log(lat);
+		console.log(lon);
     // 마커 표시합니다
     displayMarker(locPosition);
 	//ajax 통신을 하여 좌표값을 주소로 바꿔준다.
@@ -232,6 +236,7 @@
         // $('.temp_min').append($temp_min);
         $('.temp_max').append($temp_max);         
         $('.feel').append($feel);
+		console.log(data);
         //weatherDescKo의 키 비교 후 값을 가져오는 알고리즘
         for(var i=0;i<$weather_description;i++){
             if($weather_description==Object.keys(weatherDescKo[i])){
