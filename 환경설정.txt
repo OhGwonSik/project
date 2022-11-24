@@ -1,3 +1,29 @@
+초기 설정
+
+npm install
+
 npm install express --save
 
 $ npm install mysql --save
+
+npm install body-parser --save
+
+CREATE DATABASE 데이터베이스명;
+SHOW DATABASES:
+USE 데이터베이스명;
+
+npm install -s cookie
+
+npm install -s express-session
+
+npm install -s session-file-store
+
+테이블 생성
+
+CREATE TABLE `users` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `name` varchar(10) NOT NULL,
+  `username` varchar(10) NOT NULL,
+  `password` varchar(200) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+);

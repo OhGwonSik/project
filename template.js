@@ -1,7 +1,7 @@
 module.exports = {
     TIME: function () {
         return `
-        <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
@@ -10,7 +10,7 @@ module.exports = {
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
-    <title>Home</title>
+    <title>TIME</title>
     <style>
         *{
             margin: 0px;
@@ -70,7 +70,7 @@ module.exports = {
     </div>
 
     <div id ="enter">
-        <a href="./login.html">들어가기</a>
+        <a href="./login">들어가기</a>
     </div>
 
 
@@ -223,7 +223,7 @@ module.exports = {
                 <h2>로그인</h2>
             </header>
         
-            <form action="http://localhost:3000.login" method="POST">
+            <form action="/login_process" method="POST">
         
                 <div class="input-box">
                     <input id="username" type="text" name="username" placeholder="아이디">
@@ -235,7 +235,7 @@ module.exports = {
                     <label for="password">비밀번호</label>
                 </div>
                 <!-- 색 바꾸기 -->
-                <a href="./register.html" id="gaib">회원가입하기</a>
+                <a href="/register" id="gaib">회원가입하기</a>
                 <input type="submit" value="로그인">
         
             </form>
@@ -329,11 +329,11 @@ module.exports = {
             <h2>회원가입</h2>
         </header>
     
-        <form action="" method="POST">
+        <form action="/register_process" method="POST">
     
             <div class="input-box">
-                <input id="username" type="text" name="username" placeholder="아이디">
-                <label for="username">이름</label>
+                <input id="name" type="text" name="name" placeholder="아이디">
+                <label for="name">이름</label>
             </div>
     
             <div class="input-box">
