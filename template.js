@@ -1,5 +1,5 @@
 module.exports = {
-    TIME: function () {
+    TIME: function (control) {
         return `
 <!DOCTYPE html>
 <html lang="ko">
@@ -45,17 +45,23 @@ module.exports = {
 
         }
         .AmPm{
-            position: absolute;
-            top: 50px;
-            left: 20%;
+            position: relative;
+            top: 110px;
+            left: -390px;
             text-align: center;
             font-size: 50px;
         }
-        a{
+        #enterLogin{
             position: absolute;
-            left: 45%;
+            left: 35%;
             font-size: 30px;
-            top: 500px
+
+        }
+        #enterMain{
+            position: absolute;
+            left: 60%;
+            font-size: 30px;
+
         }
 
     </style>
@@ -69,8 +75,11 @@ module.exports = {
         <div id ="enter"class="enter"></div>
     </div>
 
-    <div id ="enter">
-        <a href="./login">들어가기</a>
+    <div id ="enterLog">
+        ${control}
+    </div>
+    <div id ="enterMa">
+        <a  id= "enterMain" href="/main">들어가기</a>
     </div>
 
 
@@ -352,6 +361,129 @@ module.exports = {
     </body>
 </html>
         `;
+    },
+    MAIN :function(control){
+        return `
+        <!DOCTYPE html>
+        <html lang="ko">
+        <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+        <title> Main </title>
+        <link rel="stylesheet" href="http://localhost:3000/css/common.css">
+        <link rel="stylesheet" href="http://localhost:3000/css/main.css">
+        <script src="http://localhost:3000/js/jquery.js"></script>
+        <script src="http://localhost:3000/js/jquery.bxslider.min.js"></script>
+        <script src="http://localhost:3000/js/isotope.pkgd.min.js"></script>
+        <script src="http://localhost:3000/js/common.js"></script>
+        <script src="http://localhost:3000/js/main.js"></script>
+        <!--[if lt IE 9]>
+            <script src="js/html5shiv.js"></script>
+            <script src="js/PIE.js"></script>
+            <script>
+                $(function(){
+                    if (window.PIE) {
+                        $('.rounded').each(function() {
+                                        PIE.attach(this);
+                        });
+                    }
+                });
+            </script>
+            <style>
+                body{min-width:1024px;}
+            </style>
+        <![endif]-->
+        </head>
+        <body>
+            <!--헤더 영역-->
+            <div id="header-wrap">
+                <header class="header-inner">
+                    <h1>
+                        <a href="/main">
+                        <picture>
+                            오권식
+                        </picture>
+                        </a>
+                    </h1>
+                    <p class="mobile-menu-open">
+                        <button>
+                            <span class="blind">메뉴 열기</span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </button>
+                    </p>
+                    <div class="mobile-menu-wrap">
+                        <div class="mobile-menu-scroll">
+                            <ul class="site-choice">
+                            </ul>
+                            <ul class="util-menu">
+                                <li><a href="/">Home</a></li>
+                                <li><a href="/Main">Main</a></li>
+                                ${control}
+        
+                            </ul>
+                            <nav id="gnb">
+                                <h2 class="blind">메인메뉴</h2>
+                                <ul>
+                                    <li class="m1">
+                                        <a href="#" >날씨</a>
+                                    </li>
+                                    <li class="m2">
+                                        <a class="m2_1" href="#">게시판</a>
+                                        <ul>
+                                            <li><a href="#">공지사항</a></li>
+                                            <li><a href="#">자유게시판</a></li>
+                                            <li><a href="#">질문과 답변</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                        <p class="mobile-menu-close">
+                            <button>
+                                <span class="blind">메뉴닫기</span>
+                                <span></span>
+                                <span></span>
+                            </button>
+                        </p>
+                    </div>
+                </header>
+            </div>
+            <!--//헤더 영역-->
+            <!--콘테이너 영역-->
+            <div id="container">
+                <section id="main-visual" class="rounded">
+                    <h3 class="blind">point</h3>
+                    <p class="main-visual-slide">안녕하세요</p>
+                </section>
+                <section id="notice-tab-wrap" class="rounded">
+                    <h3 class="sec-tit-1">NOTICE &amp; NEWS</h3>
+                    <h4 class="tab-btn-1"><a href="#" class="on">공지사항</a></h4>
+                    <div class="tab-container-1">
+                        <ul>
+                            <li><a href="#">공지사항 관련된 내용입니다.</a><span>2017.08.07</span></li>
+                            <li><a href="#">공지사항 관련된 내용입니다.</a><span>2017.08.07</span></li>
+                        </ul>
+                        <p class="icon-more"><a href="#">more</a></p>
+                    </div>
+                    <h4 class="tab-btn-2"><a href="#">게시판</a></h4>
+                    <div class="tab-container-2">
+                        <p class="no-write">등록된 내용이 없습니다.</p>
+                    </div>
+                </section>
+            </div>
+            <!--//콘테이너 영역-->
+            <!--푸터 영역-->
+            <div id="footer-wrap">
+                <footer id="footer">
+                    <h>감사합니다.</h>
+                </footer>
+            </div>
+            <!--//푸터 영역-->
+        </body>
+        </html>
+        `
     }
 
 }

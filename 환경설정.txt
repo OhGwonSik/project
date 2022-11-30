@@ -8,7 +8,16 @@ $ npm install mysql --save
 
 npm install body-parser --save
 
-CREATE DATABASE 데이터베이스명;
+npm install express-session --save
+
+npm install ejs --save
+app.set('view engine', 'ejs');
+app.set('ex','./views_ejs');
+
+
+npm install express-session session-file-store --sava //공부용 나중에 db로 세션값 넣을 것
+
+CREATE DATABASE 데이터베이스명;(user)
 SHOW DATABASES:
 USE 데이터베이스명;
 
@@ -27,3 +36,46 @@ CREATE TABLE `users` (
   `password` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`id`)
 );
+INSERT INTO users(name, username ,password) values('d','d','d');
+
+세션 생성
+npm install express-mysql-session –save
+
+var MySQLStore = require('express-mysql-session')(session);
+
+app.use(session({
+  secret: 'oh',
+  resave: false,
+  saveUninitialized: true,
+  store: new MySQLStore({
+    host: 'localhost',
+    port: 3306,
+    user: 'root',
+    password: '123456',
+    database: 'user'
+    }), //파일로 저장하겠다.
+  cookie: {
+    maxAge: 600000 //10분
+  },
+  rolling: true
+}));
+
+게시판 DB
+create table board(
+ `id` int(10) NOT NULL AUTO_INCREMENT,
+  `content` varchar(400) NOT NULL,
+  `username` varchar(10) NOT NULL,
+  `date` datetime not NULL,
+  PRIMARY KEY (`id`)
+);
+
+id 값 동기화
+alter table users  drop id;
+
+ ALTER TABLE users ADD id int primary key auto_increment FIRST;
+
+
+
+
+
+
